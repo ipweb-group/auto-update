@@ -38,6 +38,5 @@ job_update="@weekly bash $PWD/$command"
 cat <(fgrep -i -v "$command_update" <(crontab -l)) <(echo "$job_update") | crontab -
 
 # reboot start
-command_reboot=`basename "$0"`
 job_reboot="@reboot $LOCAL_BIN daemon >/dev/null 2>&1 &"
-cat <(fgrep -i -v "$command_reboot" <(crontab -l)) <(echo "$job_reboot") | crontab -
+cat <(fgrep -i -v "$LOCAL_BIN" <(crontab -l)) <(echo "$job_reboot") | crontab -
