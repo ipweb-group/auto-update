@@ -4,14 +4,13 @@ curl --version > /dev/null 2>&1 || apt-get install -y curl
 
 export REMOTE_VER=$(curl https://ipweb-download.oss-ap-northeast-1.aliyuncs.com/version | cut -f3 -d' ')
 
-export LOCAL_VER=$(ipws version | cut -f3 -d' ')
-
 export LOCAL_BIN=/usr/local/bin/ipws
 
 export TMP_BIN=/tmp/update-bin
 
 if which ipws > /dev/null 2>&1
   then
+  export LOCAL_VER=$(ipws version | cut -f3 -d' ')
     if [ "$(echo $REMOTE_VER $LOCAL_VER | tr " " "\n" | sort -V | head -n 1)" != "$REMOTE_VER" ]
       then
         curl -o $TMP_BIN https://ipweb-download.oss-ap-northeast-1.aliyuncs.com/$REMOTE_VER/x86/ipws
