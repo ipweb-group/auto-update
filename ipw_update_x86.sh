@@ -31,8 +31,8 @@ if which ipws > /dev/null 2>&1
     #IPWS INIT
     $LOCAL_BIN init
     if [ ! -f "/data/ipws" ]; then
-      echo "Init Error"
-      exit -1
+      echo "Init Error: /data/ipws is not found."
+      exit 1
     fi
 
     #Set PrivateKey
