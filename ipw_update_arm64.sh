@@ -28,6 +28,21 @@ if which ipws > /dev/null 2>&1
     curl -o $LOCAL_BIN https://ipweb-download.oss-ap-northeast-1.aliyuncs.com/$REMOTE_VER/arm64/ipws
     chmod +x $LOCAL_BIN
 
+    #IPWS INIT
+    $LOCAL_BIN init
+    if [ ! -f "/data/ipws" ]; then
+      echo "Init Error: /data/ipws is not found."
+      exit 1
+    fi
+
+    #Set PrivateKey
+    if [ -z $PRIVATE_KEY ];then
+      read -p "Enter your private key:" PRIVATE_KEY
+      echo "PRIVATE_KEY = $PRIVATE_KEY"
+    fi
+
+    $LOCAL_BIN  config Chain.WalletPriKey $PRIVATE_KEY
+
     # Start IPWS
     $LOCAL_BIN daemon >/dev/null 2>&1 &
 fi
