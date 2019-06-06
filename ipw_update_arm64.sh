@@ -8,6 +8,8 @@ export LOCAL_BIN=/usr/local/bin/ipws
 
 export TMP_BIN=/tmp/update-bin
 
+export IPWS_PATH=/data/ipws
+
 if which ipws > /dev/null 2>&1
   then
   export LOCAL_VER=$(ipws version | cut -f3 -d' ')
@@ -54,9 +56,9 @@ fi
 
 # weekly auto update
 command_update=`basename "$0"`
-job_update="@weekly bash $PWD/$command"
+job_update="@weekly bash $PWD/$command_update"
 cat <(fgrep -i -v "$command_update" <(crontab -l)) <(echo "$job_update") | crontab -
 
 # reboot start
-job_reboot="@reboot $LOCAL_BIN daemon >/dev/null 2>&1 &"
+job_reboot="@reboot export IPWS_PATH=/data/ipws; $LOCAL_BIN daemon >/dev/null 2>&1 &"
 cat <(fgrep -i -v "$LOCAL_BIN" <(crontab -l)) <(echo "$job_reboot") | crontab -
