@@ -16,12 +16,14 @@ if which ipws > /dev/null 2>&1
         curl -o $TMP_BIN https://ipweb-download.oss-ap-northeast-1.aliyuncs.com/$REMOTE_VER/arm64/ipws
 
         # Stop IPWS
+        echo "Stop IPWS"
         $LOCAL_BIN shutdown >/dev/null 2>&1
 
         mv $TMP_BIN $LOCAL_BIN
         chmod +x $LOCAL_BIN
 
         # Start IPWS
+        echo "Start IPWS"
         $LOCAL_BIN daemon >/dev/null 2>&1 &
     fi
   else
@@ -29,8 +31,9 @@ if which ipws > /dev/null 2>&1
     chmod +x $LOCAL_BIN
 
     #IPWS INIT
+    echo "Init IPWS"
     $LOCAL_BIN init
-    if [ ! -f "/data/ipws" ]; then
+    if [ ! -d "/data/ipws" ]; then
       echo "Init Error: /data/ipws is not found."
       exit 1
     fi
@@ -41,9 +44,11 @@ if which ipws > /dev/null 2>&1
       echo "PRIVATE_KEY = $PRIVATE_KEY"
     fi
 
-    $LOCAL_BIN  config Chain.WalletPriKey $PRIVATE_KEY
+    echo "Set Private Key"
+    $LOCAL_BIN config Chain.WalletPriKey $PRIVATE_KEY
 
     # Start IPWS
+    echo "Start IPWS"
     $LOCAL_BIN daemon >/dev/null 2>&1 &
 fi
 
