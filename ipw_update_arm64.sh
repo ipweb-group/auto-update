@@ -10,9 +10,9 @@ export TMP_BIN=/tmp/update-bin
 
 export IPWS_PATH=/data/ipws
 
-if which ipws > /dev/null 2>&1
+if [ -f $LOCAL_BIN ];
   then
-  export LOCAL_VER=$(ipws version | cut -f3 -d' ')
+  export LOCAL_VER=$($LOCAL_BIN version | cut -f3 -d' ')
     if [ "$(echo $REMOTE_VER $LOCAL_VER | tr " " "\n" | sort -V | head -n 1)" != "$REMOTE_VER" ]
       then
         curl -o $TMP_BIN https://ipweb-download.oss-ap-northeast-1.aliyuncs.com/$REMOTE_VER/arm64/ipws
@@ -56,7 +56,7 @@ fi
 
 # weekly auto update
 command_update=`basename "$0"`
-job_update="@weekly bash $PWD/$command_update"
+job_update="@weekly bash $PWD/$command_update >/dev/null 2>&1"
 cat <(fgrep -i -v "$command_update" <(crontab -l)) <(echo "$job_update") | crontab -
 
 # reboot start
