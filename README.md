@@ -9,6 +9,7 @@
 
   - 在`https://github.com/ipweb-group/auto-update`下载安装及自动更新脚本
   - 以root用户登录系统，将相应版本脚本文件复制到`/root`目录下
+  - 如果`/data`目录不存在，创建`/data`目录
   - 执行脚本文件
     + Intel平台：`ipw_update_x86.sh`
     + ARM64平台：`ipw_update_arm64.sh`
